@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ClientFramework</string>
+    <string name="receive_service">Receive Service</string>
+    <string name="provide_service">Provide Service</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
