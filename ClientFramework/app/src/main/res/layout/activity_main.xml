@@ -10,12 +10,12 @@
         android:id="@+id/button"
         android:layout_width="195dp"
         android:layout_height="66dp"
+        android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="85dp"
         android:layout_marginLeft="85dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="58dp"
         android:text="@string/provide_service" />
 
     <Button
@@ -29,4 +29,17 @@
         android:layout_marginLeft="86dp"
         android:layout_marginTop="72dp"
         android:text="@string/receive_service" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="197dp"
+        android:layout_height="78dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="70dp"
+        android:text="Client Framework"
+        android:textSize="24sp" />
 </RelativeLayout>

@@ -1,22 +1,21 @@
 package com.example.clientframework;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.clientframework.ResourceSharing.*;
-import communication.*;
+import com.example.clientframework.OffloadingHandler.OffloadTask;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Button sProvider;
     private Button sReceiver;
-    public static Client client;
+    static public int Id;
 
     public static final int SERVICE_REGISTRY = 1;
     public static final int TASK_REGISTRY = 2;
@@ -35,24 +34,14 @@ public class MainActivity extends AppCompatActivity {
         sProvider = (Button)findViewById(R.id.button);
         sReceiver = (Button)findViewById(R.id.button2);
 
-        client = new Client();
-        ClientThread clientThread = new ClientThread(client,null,1);
-        clientThread.start();
-
         sProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.i("MainActivity.java ","You just Pressed Provider button");
-                if(client.isConnected() == false){
-                    Toast.makeText(MainActivity.this,"Can't connect to the Server",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Intent intent = new Intent(MainActivity.this,ResourceHandler.class);
-                    startActivity(intent);
-                    finish();
-                }
+                Id = SERVICE_REGISTRY;
+                Intent intent = new Intent(MainActivity.this,ConnectionSetup.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -60,14 +49,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(client.isConnected() == false){
-                    Toast.makeText(MainActivity.this,"Can't connect to the Server",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-
-                }
+                Intent intent = new Intent(MainActivity.this, OffloadTask.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
 }
+
+

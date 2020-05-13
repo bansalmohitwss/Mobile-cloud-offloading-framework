@@ -49,11 +49,13 @@ public class ResourceAllocator {
             Logger.getLogger(ResourceAllocator.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        deviceData.setIsbusy(0);
     }
     
     public synchronized DeviceData findDevice(SocketData socketData)
     {
         DeviceData data = null;
+        System.out.println("In findDevice Method");
         for(DeviceData deviceData : serviceRegistry.deviceList)
         {
             if(deviceData.getIsbusy() == 1)
@@ -63,7 +65,6 @@ public class ResourceAllocator {
             try {
                 deviceData.getObjectOutputStream().writeObject(socketData);
             } catch (IOException ex) {
-                Logger.getLogger(ResourceAllocator.class.getName()).log(Level.SEVERE, null, ex);
                 flag=true;
             }
             
@@ -74,7 +75,7 @@ public class ResourceAllocator {
                 break;
             }
         }
-        
+        System.out.println("Exiting FindDevice Method"+data);
         return data;
     }
 }

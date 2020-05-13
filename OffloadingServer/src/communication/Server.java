@@ -41,6 +41,7 @@ public class Server extends OffloadingServer{
                 System.out.println("Socket Error "+ex);
             }
             
+            System.out.println("One Request for connection");
             Thread thread = new ServerThread(this,socket);
             thread.start();
         }
@@ -52,11 +53,15 @@ public class Server extends OffloadingServer{
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             socketData = (SocketData)objectInputStream.readObject();
+            System.out.println("SocketData is received");
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         
+        System.out.println("Successfully created streams");
         if(socketData.getType() == OffloadingServer.SERVICE_REGISTRY){
+            System.out.println("In Service Provider Section");
             serviceRegistry.addDevice(socket, objectInputStream, objectOutputStream, socketData);
         }else if(socketData.getType() == OffloadingServer.TASK_REGISTRY){
             resourceAllocator.allocateResource(socket, objectInputStream, objectOutputStream, socketData);
