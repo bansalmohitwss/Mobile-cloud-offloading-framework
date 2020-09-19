@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.clientframework.Accounts.LoginActivity;
 import com.example.clientframework.OffloadingHandler.OffloadTask;
 
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Id = SERVICE_REGISTRY;
-                Intent intent = new Intent(MainActivity.this,ConnectionSetup.class);
+                Intent intent = new Intent(MainActivity.this, ConnectionSetup.class);
                 startActivity(intent);
                 finish();
             }
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Id = TASK_REGISTRY;
                 Intent intent = new Intent(MainActivity.this, OffloadTask.class);
                 startActivity(intent);
                 finish();

@@ -19,6 +19,7 @@ import com.example.clientframework.MainActivity;
 import com.example.clientframework.R;
 
 import java.util.Collections;
+import java.util.Vector;
 
 import communication.Client;
 import communication.SocketData;
@@ -96,7 +97,18 @@ class PerfromTask extends Thread
 
             ResourceAllocator.isRunning=true;
             status = "Successfully Received Task, Executing Task..."; showStatus(status);
-            Collections.sort(socketData.vector);
+
+            Vector<Integer> vector = socketData.vector;
+            int size = vector.size();
+
+            for(int i=0;i<size-1;i++)
+                for(int j=0;j<size-i-1;j++){
+                    if(vector.get(j) > vector.get(j+1)){
+                        int temp = vector.get(j);
+                        vector.set(j,vector.get(j+1));
+                        vector.set(j+1,temp);
+                    }
+                }
 
             status = "Task Execution Successful, Ready to send Result..." ; showStatus(status);
             socketData.setType(MainActivity.SUBMIT_RESULT);

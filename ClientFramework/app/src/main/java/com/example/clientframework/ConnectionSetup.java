@@ -78,6 +78,7 @@ public class ConnectionSetup extends AppCompatActivity {
 
     static public void initiateConnection(Client client)
     {
+        Log.i("In funtion","Connecting to server, wait for couple of minutes");
         ClientThread clientThread = new ClientThread(client,null,1);
         clientThread.start();
         synchronized (clientThread) {
