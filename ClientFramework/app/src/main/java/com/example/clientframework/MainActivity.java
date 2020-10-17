@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 Id = TASK_REGISTRY;
                 Intent intent = new Intent(MainActivity.this, OffloadTask.class);
                 startActivity(intent);
-                finish();
             }
         });
     }

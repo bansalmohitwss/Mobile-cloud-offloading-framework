@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ import com.example.clientframework.ConnectionSetup;
 import com.example.clientframework.MainActivity;
 import com.example.clientframework.R;
 
-import java.util.Collections;
 import java.util.Vector;
 
 import communication.Client;
@@ -39,7 +37,7 @@ public class ResourceAllocator extends AppCompatActivity {
         setContentView(R.layout.activity_resource_handler);
 
         client = ConnectionSetup.client;
-        closeButton = (Button)findViewById(R.id.close);
+        closeButton = (Button)findViewById(R.id.localBtn);
         textView = (TextView)findViewById(R.id.statusView);
         bundle = new Bundle();
         isRunning = false;

@@ -7,7 +7,7 @@
     tools:context="ResourceHandler.ResourceHandler">
 
     <Button
-        android:id="@+id/close"
+        android:id="@+id/localBtn"
         android:layout_width="173dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/statusView"
