@@ -6,26 +6,34 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clientframework.MainActivity;
 import com.example.clientframework.R;
 import com.example.clientframework.Tasks.OcrTask;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+
+import communication.OcrData;
 
 public class OcrActivity extends AppCompatActivity {
 
@@ -33,6 +41,7 @@ public class OcrActivity extends AppCompatActivity {
     private Button closeBtn;
     private Button localBtn;
     private TextView resultTextView;
+    private boolean localOcr;
 
     private static final int CAMERA_REQUEST_CODE = 610;
     private static final int PICK_IMAGE_GALLERY_REQUEST_CODE = 609;
@@ -46,6 +55,20 @@ public class OcrActivity extends AppCompatActivity {
         closeBtn = (Button)findViewById(R.id.close);
         localBtn = (Button)findViewById(R.id.localBtn);
         resultTextView = (TextView)findViewById(R.id.textView4);
+        resultTextView.setMovementMethod(new ScrollingMovementMethod());
+
+        offloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                localOcr = false;
+                resultTextView.setText("");
+                isReadStoragePermissionGranted();
+                isWriteStoragePermissionGranted();
+                selectImage(OcrActivity.this);
+            }
+        });
+
+
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +82,8 @@ public class OcrActivity extends AppCompatActivity {
         localBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                localOcr = true;
+                resultTextView.setText("");
                 isReadStoragePermissionGranted();
                 isWriteStoragePermissionGranted();
                 selectImage(OcrActivity.this);
@@ -105,7 +130,7 @@ public class OcrActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
-            this.performLocalOcr(resultUri);
+            this.performOcr(resultUri);
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
         }
@@ -125,10 +150,46 @@ public class OcrActivity extends AppCompatActivity {
         }
     }
 
-    private void performLocalOcr(Uri uri){
+    private void performOcr(Uri uri){
+        Bitmap bitmap = this.convertUri(uri, this.getContentResolver());
+        if(localOcr){
+            this.performLocalOcr(bitmap);
+        }else {
+            this.performOffloadOcr(bitmap);
+        }
+    }
+
+    private void performOffloadOcr(Bitmap bitmap){
         double startTime = System.nanoTime();
-        StringBuilder stringBuilder = OcrTask.performTask(uri, getApplicationContext(), this.getContentResolver());
-        resultTextView.setText(stringBuilder.toString());
+        byte[] image = this.getBytesFromBitmap(bitmap);
+        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,image,null);
+        OffloadingThread offloadingThread = new OffloadingThread((Object)ocrData);
+        offloadingThread.start();
+
+        synchronized (offloadingThread)
+        {
+            try {
+                offloadingThread.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ocrData = (OcrData)offloadingThread.getReceiveData();
+        if(ocrData==null || ocrData.getType() != MainActivity.SUBMIT_RESULT){
+            Toast.makeText(OcrActivity.this,"Some Error Occurred",Toast.LENGTH_LONG).show();
+        }
+        else{
+            double duration = (System.nanoTime() - startTime)/1000000000;
+            resultTextView.setText(ocrData.getResultText());
+            Toast.makeText(OcrActivity.this,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void performLocalOcr(Bitmap bitmap){
+        double startTime = System.nanoTime();
+        String string = OcrTask.performTask(bitmap, getApplicationContext());
+        resultTextView.setText(string);
         double duration = (System.nanoTime() - startTime)/1000000000;
         Toast.makeText(OcrActivity.this,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
     }
@@ -137,6 +198,24 @@ public class OcrActivity extends AppCompatActivity {
                 //.withAspectRatio(3, 2)
                 //.withMaxResultSize(MAX_WIDTH, MAX_HEIGHT)
                 .start(this);
+    }
+
+    private Bitmap convertUri(Uri uri, ContentResolver contentResolver){
+        Bitmap bitmap;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+
+    // convert from bitmap to byte array
+    private byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
     }
 
     public  boolean isReadStoragePermissionGranted() {

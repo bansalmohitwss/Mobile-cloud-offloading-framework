@@ -11,19 +11,19 @@ import android.widget.Button;
 import com.example.clientframework.Accounts.LoginActivity;
 import com.example.clientframework.OffloadingHandler.OffloadTask;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private Button sProvider;
     private Button sReceiver;
-    static public int Id;
 
     public static final int SERVICE_REGISTRY = 1;
-    public static final int TASK_REGISTRY = 2;
-    public static final int OFFLOAD_TASK = 3;
-    public static final int SUBMIT_RESULT = 4;
-    public static final int REGISTRATION_SUCCESS = 5;
-    public static final int EXIT_FAILURE = 6;
+    public static final int OCR_TASK_REGISTRY = 2;
+    public static final int SORT_TASK_REGISTRY = 3;
+    public static final int OCR_OFFLOAD_TASK = 4;
+    public static final int SORT_OFFLOAD_TASK = 5;
+    public static final int SUBMIT_RESULT = 6;
+    public static final int REGISTRATION_SUCCESS = 7;
+    public static final int EXIT_FAILURE = 8;
     public static final String SERVER_IP = "192.168.43.142";
     public static final int PORT_NO = 5000;
 
@@ -38,19 +38,14 @@ public class MainActivity extends AppCompatActivity {
         sProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Id = SERVICE_REGISTRY;
                 Intent intent = new Intent(MainActivity.this, ConnectionSetup.class);
                 startActivity(intent);
-                finish();
             }
         });
 
         sReceiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Id = TASK_REGISTRY;
                 Intent intent = new Intent(MainActivity.this, OffloadTask.class);
                 startActivity(intent);
             }

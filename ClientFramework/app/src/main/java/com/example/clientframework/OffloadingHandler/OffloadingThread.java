@@ -7,21 +7,21 @@ import communication.SocketData;
 
 public class OffloadingThread extends Thread
 {
-    private SocketData sendData;
-    private SocketData receiveData;
+    private Object sendData;
+    private Object receiveData;
     private Client client;
 
-    public OffloadingThread(SocketData sendData){
+    public OffloadingThread(Object sendData){
         this.client = new Client();
         this.sendData = sendData;
         this.receiveData = null;
     }
 
-    public SocketData getReceiveData() {
+    public Object getReceiveData() {
         return receiveData;
     }
 
-    public void setReceiveData(SocketData receiveData) {
+    public void setReceiveData(Object receiveData) {
         this.receiveData = receiveData;
     }
 

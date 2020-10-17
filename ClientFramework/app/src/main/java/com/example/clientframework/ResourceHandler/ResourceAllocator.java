@@ -1,10 +1,14 @@
 package com.example.clientframework.ResourceHandler;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,11 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.clientframework.ConnectionSetup;
 import com.example.clientframework.MainActivity;
 import com.example.clientframework.R;
+import com.example.clientframework.Tasks.OcrTask;
+import com.example.clientframework.Tasks.SortTask;
 
 import java.util.Vector;
 
 import communication.Client;
+import communication.OcrData;
 import communication.SocketData;
+import communication.SortData;
 
 public class ResourceAllocator extends AppCompatActivity {
 
@@ -52,7 +60,7 @@ public class ResourceAllocator extends AppCompatActivity {
             }
         };
 
-        perfromTask = new PerfromTask(client,handler);
+        perfromTask = new PerfromTask(client,handler, getApplicationContext());
         perfromTask.start();
 
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -78,10 +86,12 @@ class PerfromTask extends Thread
 {
     Client client;
     Handler handler;
+    Context context;
 
-    public PerfromTask(Client client,Handler handler){
+    public PerfromTask(Client client,Handler handler, Context context){
         this.client = client;
         this.handler = handler;
+        this.context = context;
     }
 
     public void run()
@@ -89,29 +99,38 @@ class PerfromTask extends Thread
         while(client.isConnected())
         {
             String status = "Waiting for Tasks from Server..."; showStatus(status);
-            SocketData socketData = client.receiveData();
-            if(socketData == null || socketData.getType() != MainActivity.OFFLOAD_TASK)
+            Object data = client.receiveData();
+            SocketData socketData = (SocketData)data;
+            if(socketData == null)
                 break;
 
             ResourceAllocator.isRunning=true;
             status = "Successfully Received Task, Executing Task..."; showStatus(status);
 
-            Vector<Integer> vector = socketData.vector;
-            int size = vector.size();
+            Log.i("Inside run Method", "Starting executing tasks.");
+            if(socketData.getType() == MainActivity.SORT_OFFLOAD_TASK){
+                SortData sortData = (SortData)data;
+                Vector<Integer> vector = sortData.vector;
+                int size = vector.size();
+                SortTask.performTask(vector, size);
+                status = "Task Execution Successful, Ready to send Result..." ; showStatus(status);
+                sortData.setType(MainActivity.SUBMIT_RESULT);
+                data = (Object)sortData;
+            }
+            else if(socketData.getType() == MainActivity.OCR_OFFLOAD_TASK){
+                OcrData ocrData = (OcrData)data;
+                Bitmap bitmap =  BitmapFactory.decodeByteArray(ocrData.getImage(), 0, ocrData.getImage().length);
+                String string  = OcrTask.performTask(bitmap, context);
+                ocrData.setResultText(string);
+                status = "Task Execution Successful, Ready to send Result..." ; showStatus(status);
+                ocrData.setType(MainActivity.SUBMIT_RESULT);
+                data = (Object)ocrData;
+            }
 
-            for(int i=0;i<size-1;i++)
-                for(int j=0;j<size-i-1;j++){
-                    if(vector.get(j) > vector.get(j+1)){
-                        int temp = vector.get(j);
-                        vector.set(j,vector.get(j+1));
-                        vector.set(j+1,temp);
-                    }
-                }
-
-            status = "Task Execution Successful, Ready to send Result..." ; showStatus(status);
-            socketData.setType(MainActivity.SUBMIT_RESULT);
-            client.sendData(socketData);
-            status = "Successfully Send Result to Server..."; showStatus(status);
+            client.sendData(data);
+            status = "Successfully Send Result to Server...";
+            Log.i("Inside run sort", status);
+            showStatus(status);
 
             ResourceAllocator.isRunning = false;
             try {

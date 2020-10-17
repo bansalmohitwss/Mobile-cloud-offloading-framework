@@ -16,6 +16,7 @@ import com.example.clientframework.Tasks.SortTask;
 import java.util.Vector;
 
 import communication.SocketData;
+import communication.SortData;
 
 public class SortActivity extends AppCompatActivity {
 
@@ -71,8 +72,8 @@ public class SortActivity extends AppCompatActivity {
                     vector.add(i);
 
                 double startTime = System.nanoTime();
-                SocketData socketData = new SocketData(MainActivity.TASK_REGISTRY,vector);
-                OffloadingThread offloadingThread = new OffloadingThread(socketData);
+                SortData sortData = new SortData(MainActivity.SORT_TASK_REGISTRY, vector);
+                OffloadingThread offloadingThread = new OffloadingThread((Object)sortData);
                 offloadingThread.start();
 
                 synchronized (offloadingThread)
@@ -84,8 +85,8 @@ public class SortActivity extends AppCompatActivity {
                     }
                 }
 
-                socketData = offloadingThread.getReceiveData();
-                if(socketData==null || socketData.getType() != MainActivity.SUBMIT_RESULT){
+                sortData = (SortData)offloadingThread.getReceiveData();
+                if(sortData==null || sortData.getType() != MainActivity.SUBMIT_RESULT){
                     Toast.makeText(SortActivity.this,"Some Error Occurred",Toast.LENGTH_LONG).show();
                 }
                 else{

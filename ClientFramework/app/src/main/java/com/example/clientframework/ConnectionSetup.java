@@ -42,7 +42,7 @@ public class ConnectionSetup extends AppCompatActivity {
                if (client.isConnected() == false){
                    Toast.makeText(ConnectionSetup.this,"Can't connect to Server",Toast.LENGTH_LONG).show();
                }
-               else if(MainActivity.Id == MainActivity.SERVICE_REGISTRY)
+               else
                {
                    new ClientThread(client,new SocketData(MainActivity.SERVICE_REGISTRY),3).start();
                    ClientThread clientThread = new ClientThread(client,null,4);
@@ -128,7 +128,7 @@ class ClientThread extends Thread {
         }else if(type==4){
             synchronized (this)
             {
-                socketData = client.receiveData();
+                socketData = (SocketData) client.receiveData();
                 this.notify();
             }
         }

@@ -51,23 +51,23 @@ public class Client {
         }
     }
 
-    public SocketData receiveData()
+    public Object receiveData()
     {
-        SocketData socketData = null;
+        Object data = null;
         try {
-            socketData = (SocketData)objectInputStream.readObject();
+            data = (Object) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return socketData;
+        return data;
     }
 
-    public void sendData(SocketData socketData)
+    public void sendData(Object data)
     {
         try {
-            objectOutputStream.writeObject(socketData);
+            objectOutputStream.writeObject(data);
         } catch (IOException e) {
             e.printStackTrace();
         }

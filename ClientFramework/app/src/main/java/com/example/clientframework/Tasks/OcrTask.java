@@ -15,16 +15,8 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import java.io.IOException;
 
 public class OcrTask {
-    public static StringBuilder performTask(Uri uri, Context context, ContentResolver contentResolver) {
+    public static String performTask(Bitmap bitmap, Context context) {
         StringBuilder stringBuilder = new StringBuilder();
-        Bitmap bitmap;
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return stringBuilder;
-        }
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
         if (!textRecognizer.isOperational())
@@ -39,6 +31,6 @@ public class OcrTask {
             }
             Log.i("Data", stringBuilder.toString());
         }
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 }

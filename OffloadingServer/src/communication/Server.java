@@ -49,22 +49,25 @@ public class Server extends OffloadingServer{
     
     public synchronized void deviceRegistry(Socket socket)
     {
+        Object data;
         try {
             objectInputStream = new ObjectInputStream(socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            socketData = (SocketData)objectInputStream.readObject();
+            data = (Object)objectInputStream.readObject();
             System.out.println("SocketData is received");
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         
+        socketData = (SocketData)data;
+        
         System.out.println("Successfully created streams");
         if(socketData.getType() == OffloadingServer.SERVICE_REGISTRY){
             System.out.println("In Service Provider Section");
             serviceRegistry.addDevice(socket, objectInputStream, objectOutputStream, socketData);
-        }else if(socketData.getType() == OffloadingServer.TASK_REGISTRY){
-            resourceAllocator.allocateResource(socket, objectInputStream, objectOutputStream, socketData);
+        }else if(socketData.getType() == OffloadingServer.OCR_TASK_REGISTRY || socketData.getType() == OffloadingServer.SORT_TASK_REGISTRY){
+            resourceAllocator.allocateResource(socket, objectInputStream, objectOutputStream, data);
         }
             
     }
