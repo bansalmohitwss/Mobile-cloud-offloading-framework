@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import offloadingserver.OffloadingServer;
+import offloadingserver.ServerUi;
 import serviceRegistry.ServiceRegistry;
 import resourceAllocation.ResourceAllocator;
 
@@ -16,15 +17,18 @@ public class Server extends OffloadingServer{
     SocketData socketData;
     ServiceRegistry serviceRegistry;
     ResourceAllocator resourceAllocator;
+    ServerUiHandler serverUiHandler;
     
     public Server()
     {
         serviceRegistry = new ServiceRegistry();
-        resourceAllocator = new ResourceAllocator(serviceRegistry);
+        resourceAllocator = new ResourceAllocator();
+        serverUiHandler = new ServerUiHandler();
     }
     
     public void serverStart()
     {
+        serverUiHandler.start();
         try{
             serverSocket = new ServerSocket(OffloadingServer.PORT_NO);
             System.out.println("Successfully Server Started");
@@ -65,7 +69,7 @@ public class Server extends OffloadingServer{
         System.out.println("Successfully created streams");
         if(socketData.getType() == OffloadingServer.SERVICE_REGISTRY){
             System.out.println("In Service Provider Section");
-            serviceRegistry.addDevice(socket, objectInputStream, objectOutputStream, socketData);
+            serviceRegistry.addDevice(socket, objectInputStream, objectOutputStream, (DeviceInfoData)data);
         }else if(socketData.getType() == OffloadingServer.OCR_TASK_REGISTRY || socketData.getType() == OffloadingServer.SORT_TASK_REGISTRY){
             resourceAllocator.allocateResource(socket, objectInputStream, objectOutputStream, data);
         }
@@ -74,4 +78,26 @@ public class Server extends OffloadingServer{
     
 }
 
+class ServerUiHandler extends Thread {
+    
+    ServerUi serverUi;
+
+    public ServerUiHandler() {
+        serverUi = new ServerUi();
+    }
+    
+    public void run(){
+        serverUi.init();
+        serverUi.setVisible(true);
+        
+        while(true){
+            serverUi.setProviders();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ServerUiHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+}
 

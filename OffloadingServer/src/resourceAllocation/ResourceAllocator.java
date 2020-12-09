@@ -13,14 +13,9 @@ import offloadingserver.OffloadingServer;
 
 public class ResourceAllocator {
 
-    ServiceRegistry serviceRegistry;
-
     public ResourceAllocator() {
     }
     
-    public ResourceAllocator(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
-    }
     
     public void allocateResource(Socket socket,ObjectInputStream objectInputStream,ObjectOutputStream objectOutputStream,Object data)
     {
@@ -70,7 +65,7 @@ public class ResourceAllocator {
     {
         DeviceData data = null;
         System.out.println("In findDevice Method");
-        for(DeviceData deviceData : serviceRegistry.deviceList)
+        for(DeviceData deviceData : ServiceRegistry.deviceList)
         {
             if(deviceData.getIsbusy() == 1)
                 continue;
@@ -89,7 +84,7 @@ public class ResourceAllocator {
                 break;
             }
         }
-        System.out.println("Exiting FindDevice Method"+data);
+        System.out.println("Exiting FindDevice Method: "+data);
         return data;
     }
 }

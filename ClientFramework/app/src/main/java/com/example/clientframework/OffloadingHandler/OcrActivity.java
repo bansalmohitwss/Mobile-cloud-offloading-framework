@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.clientframework.MainActivity;
@@ -32,6 +34,7 @@ import com.yalantis.ucrop.UCrop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 
 import communication.OcrData;
 
@@ -42,6 +45,7 @@ public class OcrActivity extends AppCompatActivity {
     private Button localBtn;
     private TextView resultTextView;
     private boolean localOcr;
+    private int finalHour, finalMinute;
 
     private static final int CAMERA_REQUEST_CODE = 610;
     private static final int PICK_IMAGE_GALLERY_REQUEST_CODE = 609;
@@ -160,9 +164,20 @@ public class OcrActivity extends AppCompatActivity {
     }
 
     private void performOffloadOcr(Bitmap bitmap){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(OcrActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                finalHour = i;
+                finalMinute = i1;
+            }
+        }, 12, 0, true);
+        timePickerDialog.updateTime(new Time(System.currentTimeMillis()).getHours(),
+                new Time(System.currentTimeMillis()).getMinutes());
+        timePickerDialog.show();
+
         double startTime = System.nanoTime();
         byte[] image = this.getBytesFromBitmap(bitmap);
-        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,image,null);
+        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,finalHour, finalMinute,image,null);
         OffloadingThread offloadingThread = new OffloadingThread((Object)ocrData);
         offloadingThread.start();
 

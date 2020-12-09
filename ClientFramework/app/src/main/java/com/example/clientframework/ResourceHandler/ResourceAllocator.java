@@ -72,7 +72,7 @@ public class ResourceAllocator extends AppCompatActivity {
                 }else{
                     client.setConnected(false);
                     client.disconnect();
-                    Intent intent = new Intent(ResourceAllocator.this,ConnectionSetup.class);
+                    Intent intent = new Intent(ResourceAllocator.this,MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -103,6 +103,9 @@ class PerfromTask extends Thread
             SocketData socketData = (SocketData)data;
             if(socketData == null)
                 break;
+
+            if(socketData.getType() == MainActivity.ACTIVE_CHECK)
+                continue;
 
             ResourceAllocator.isRunning=true;
             status = "Successfully Received Task, Executing Task..."; showStatus(status);

@@ -2,17 +2,20 @@ package com.example.clientframework.OffloadingHandler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.clientframework.MainActivity;
 import com.example.clientframework.R;
 import com.example.clientframework.Tasks.SortTask;
 
+import java.sql.Time;
 import java.util.Vector;
 
 import communication.SocketData;
@@ -25,6 +28,7 @@ public class SortActivity extends AppCompatActivity {
     private Button close;
     private EditText arraySize;
     private boolean isRunning;
+    private int finalHour, finalMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,19 @@ public class SortActivity extends AppCompatActivity {
                 for(int i=size;i>=1;i--)
                     vector.add(i);
 
+                TimePickerDialog timePickerDialog = new TimePickerDialog(SortActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        finalHour = i;
+                        finalMinute = i1;
+                    }
+                }, 12, 0, true);
+                timePickerDialog.updateTime(new Time(System.currentTimeMillis()).getHours(),
+                        new Time(System.currentTimeMillis()).getMinutes());
+                timePickerDialog.show();
+
                 double startTime = System.nanoTime();
-                SortData sortData = new SortData(MainActivity.SORT_TASK_REGISTRY, vector);
+                SortData sortData = new SortData(MainActivity.SORT_TASK_REGISTRY,finalHour, finalMinute, vector);
                 OffloadingThread offloadingThread = new OffloadingThread((Object)sortData);
                 offloadingThread.start();
 

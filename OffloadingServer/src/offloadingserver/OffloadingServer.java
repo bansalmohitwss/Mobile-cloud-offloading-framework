@@ -11,6 +11,7 @@ public class OffloadingServer {
     public static final int SUBMIT_RESULT = 6;
     public static final int REGISTRATION_SUCCESS = 7;
     public static final int EXIT_FAILURE = 8;
+    public static final int ACTIVE_CHECK = 9;
     public static final int PORT_NO = 5000;
 
     

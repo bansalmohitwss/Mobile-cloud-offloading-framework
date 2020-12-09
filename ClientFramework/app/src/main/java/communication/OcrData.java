@@ -1,11 +1,11 @@
 package communication;
 
-public class OcrData extends SocketData {
+public class OcrData extends TaskData {
     public byte[] image;
     public String resultText;
 
-    public OcrData(int type, byte[] image, String resultText) {
-        super(type);
+    public OcrData(int type, int finalHour, int finalMinute, byte[] image, String resultText) {
+        super(type, finalHour, finalMinute);
         this.image = image;
         this.resultText = resultText;
     }

@@ -6,45 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".ConnectionSetup">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="334dp"
-        android:layout_height="92dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="64dp"
-        android:text="Hey Welcome, Click below to start sharing your Resources."
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="103dp"
-        tools:layout_editor_absoluteY="174dp" />
-
     <Button
         android:id="@+id/button3"
-        android:layout_width="118dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_width="195dp"
+        android:layout_height="65dp"
+        android:layout_below="@+id/bid"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginBottom="-110dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="28dp"
         android:text="get Started"
         android:textAllCaps="false" />
 
     <Button
         android:id="@+id/home"
-        android:layout_width="119dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
+        android:layout_width="201dp"
+        android:layout_height="63dp"
+        android:layout_below="@+id/button3"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="131dp"
-        android:layout_marginLeft="131dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="29dp"
         android:text="Home"
         android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="155dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="37dp"
+        android:text="Available Time"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="148dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/avalTime"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:text="Bidding Price"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/avalTime"
+        android:layout_width="156dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="10dp"
+        android:hint="Select time" />
+
+    <EditText
+        android:id="@+id/bid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="false" />
+
 </RelativeLayout>
