@@ -9,6 +9,9 @@ import java.io.IOException;
 import serviceRegistry.ServiceRegistry;
 import serviceRegistry.DeviceData;
 import communication.SocketData;
+import communication.TaskData;
+import resourceAllocation.ResourceAllocator;
+import resourceAllocation.TaskInfoData;
 /**
  *
  * @author bansa
@@ -54,6 +57,21 @@ public class ServerUi extends javax.swing.JFrame {
             }
             
             
+        }
+    }
+    
+    public void setReceivers(){
+        receivers.setText("No.\t        Task Name\t\tDeadline\t               Status\n");
+        receivers.append("----------------------------------------------------");
+        receivers.append("----------------------------------------------------");
+        receivers.append("---------------------------------------\n");
+        int cnt=1;
+        for(TaskInfoData taskInfoData : ResourceAllocator.taskList){
+            receivers.append(cnt+".\t        ");
+            receivers.append(taskInfoData.getType()+"\t\t");
+            TaskData taskData = (TaskData)taskInfoData.getTaskData();
+            receivers.append(taskData.getFinalHour()+" : "+taskData.getFinalMinute()+"\t               ");
+            receivers.append(taskInfoData.getStatus()+"\n");
         }
     }
 
@@ -110,7 +128,7 @@ public class ServerUi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(238, 238, 238)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 495, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(291, 291, 291))
             .addGroup(layout.createSequentialGroup()
@@ -121,11 +139,11 @@ public class ServerUi extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(34, 34, 34))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(589, 589, 589)
@@ -143,8 +161,8 @@ public class ServerUi extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
                 .addGap(13, 13, 13)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

@@ -6,6 +6,7 @@ import java.net.*;
 import communication.SocketData;
 import communication.SortData;
 import communication.OcrData;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import offloadingserver.OffloadingServer;
@@ -13,9 +14,26 @@ import offloadingserver.OffloadingServer;
 
 public class ResourceAllocator {
 
+    public static Vector<TaskInfoData> taskList;
+    
     public ResourceAllocator() {
+        taskList = new Vector<>();
+        taskList.ensureCapacity(10);
     }
     
+    
+    public void addTask(Socket socket,ObjectInputStream objectInputStream,ObjectOutputStream objectOutputStream, Object data){
+        System.out.println("Inside addTask Method");
+        SocketData socketData = (SocketData)data;
+        TaskInfoData taskInfoData = new TaskInfoData(socket,objectInputStream,objectOutputStream);
+        if(socketData.getType() == OffloadingServer.SORT_TASK_REGISTRY){
+            taskInfoData.setType("Array Sorting Task");
+        }else if(socketData.getType() == OffloadingServer.OCR_TASK_REGISTRY){
+            taskInfoData.setType("OCR Task");
+        }
+        taskInfoData.setTaskData(data);
+        taskInfoData.setStatus("Pending");
+    }
     
     public void allocateResource(Socket socket,ObjectInputStream objectInputStream,ObjectOutputStream objectOutputStream,Object data)
     {

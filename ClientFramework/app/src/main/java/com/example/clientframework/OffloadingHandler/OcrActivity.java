@@ -45,7 +45,7 @@ public class OcrActivity extends AppCompatActivity {
     private Button localBtn;
     private TextView resultTextView;
     private boolean localOcr;
-    private int finalHour, finalMinute;
+    private int finalHour=-1, finalMinute=-1;
 
     private static final int CAMERA_REQUEST_CODE = 610;
     private static final int PICK_IMAGE_GALLERY_REQUEST_CODE = 609;
@@ -174,7 +174,7 @@ public class OcrActivity extends AppCompatActivity {
         timePickerDialog.updateTime(new Time(System.currentTimeMillis()).getHours(),
                 new Time(System.currentTimeMillis()).getMinutes());
         timePickerDialog.show();
-
+        Log.i("TimePickerDialog ", "Inside performOffloadOcr");
         double startTime = System.nanoTime();
         byte[] image = this.getBytesFromBitmap(bitmap);
         OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,finalHour, finalMinute,image,null);

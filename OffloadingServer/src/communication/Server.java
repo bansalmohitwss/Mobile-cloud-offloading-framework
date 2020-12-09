@@ -71,7 +71,8 @@ public class Server extends OffloadingServer{
             System.out.println("In Service Provider Section");
             serviceRegistry.addDevice(socket, objectInputStream, objectOutputStream, (DeviceInfoData)data);
         }else if(socketData.getType() == OffloadingServer.OCR_TASK_REGISTRY || socketData.getType() == OffloadingServer.SORT_TASK_REGISTRY){
-            resourceAllocator.allocateResource(socket, objectInputStream, objectOutputStream, data);
+            System.out.println("Inside Service Receiver Section");
+            resourceAllocator.addTask(socket, objectInputStream, objectOutputStream, data);
         }
             
     }
@@ -92,6 +93,7 @@ class ServerUiHandler extends Thread {
         
         while(true){
             serverUi.setProviders();
+            serverUi.setReceivers();
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {

@@ -14,7 +14,6 @@ public class DeviceData
     private int isbusy;
     
     public DeviceData(){
-        
     }
     
     public DeviceData(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, DeviceInfoData deviceInfoData, int isbusy) {

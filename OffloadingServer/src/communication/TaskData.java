@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package communication;
 
-/**
- *
- * @author bansa
- */
-public class TaskData {
-    
+public class TaskData extends SocketData {
+   private int finalHour;
+   private int finalMinute;
+
+    public TaskData(int type, int finalHour, int finalMinute) {
+        super(type);
+        this.finalHour = finalHour;
+        this.finalMinute = finalMinute;
+    }
+
+    public int getFinalHour() {
+        return finalHour;
+    }
+
+    public int getFinalMinute() {
+        return finalMinute;
+    }
 }
