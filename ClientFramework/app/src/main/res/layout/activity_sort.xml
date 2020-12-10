@@ -28,9 +28,10 @@
         android:layout_below="@+id/sizeText"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="92dp"
-        android:layout_marginLeft="92dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginLeft="119dp"
+        android:layout_marginTop="159dp"
+        android:background="#1FB598"
         android:text="Test via Offloading"
         android:textAllCaps="false" />
 
@@ -41,9 +42,10 @@
         android:layout_below="@+id/button5"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="104dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginLeft="131dp"
+        android:layout_marginTop="96dp"
+        android:background="#1FB598"
         android:text="close"
         android:textAllCaps="false" />
 
@@ -54,23 +56,24 @@
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="65dp"
-        android:layout_marginLeft="65dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginLeft="101dp"
+        android:layout_marginTop="112dp"
         android:ems="10"
         android:hint="Enter Array Size"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="58dp"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/button4"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="55dp"
+        android:background="#1FB598"
         android:text="Test with this Device"
         android:textAllCaps="false" />
 
