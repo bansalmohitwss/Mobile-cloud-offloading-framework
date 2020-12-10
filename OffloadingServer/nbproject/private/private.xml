@@ -5,15 +5,12 @@
         <group>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/Server.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/ServerUi.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/SortData.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/OffloadingServer.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/SocketData.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/ServerThread.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/serviceRegistry/ServiceRegistry.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/resourceAllocation/TaskInfoData.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/OffloadingServer.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/resourceAllocation/ResourceAllocator.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/OcrData.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/serviceRegistry/DeviceData.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/DeviceInfoData.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/OcrData.java</file>
         </group>
     </open-files>
 </project-private>

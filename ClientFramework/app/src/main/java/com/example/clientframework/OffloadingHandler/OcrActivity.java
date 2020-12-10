@@ -43,9 +43,9 @@ public class OcrActivity extends AppCompatActivity {
     private Button offloadBtn;
     private Button closeBtn;
     private Button localBtn;
-    private TextView resultTextView;
+    public TextView resultTextView;
     private boolean localOcr;
-    private int finalHour=-1, finalMinute=-1;
+    public static int finalHour=-1, finalMinute=-1;
 
     private static final int CAMERA_REQUEST_CODE = 610;
     private static final int PICK_IMAGE_GALLERY_REQUEST_CODE = 609;
@@ -163,42 +163,20 @@ public class OcrActivity extends AppCompatActivity {
         }
     }
 
-    private void performOffloadOcr(Bitmap bitmap){
+    private void performOffloadOcr(final Bitmap bitmap){
         TimePickerDialog timePickerDialog = new TimePickerDialog(OcrActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 finalHour = i;
                 finalMinute = i1;
+                OffloadOcrTask offloadOcrTask = new OffloadOcrTask(OcrActivity.this, bitmap);
+                offloadOcrTask.start();
             }
         }, 12, 0, true);
         timePickerDialog.updateTime(new Time(System.currentTimeMillis()).getHours(),
                 new Time(System.currentTimeMillis()).getMinutes());
         timePickerDialog.show();
-        Log.i("TimePickerDialog ", "Inside performOffloadOcr");
-        double startTime = System.nanoTime();
-        byte[] image = this.getBytesFromBitmap(bitmap);
-        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,finalHour, finalMinute,image,null);
-        OffloadingThread offloadingThread = new OffloadingThread((Object)ocrData);
-        offloadingThread.start();
 
-        synchronized (offloadingThread)
-        {
-            try {
-                offloadingThread.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ocrData = (OcrData)offloadingThread.getReceiveData();
-        if(ocrData==null || ocrData.getType() != MainActivity.SUBMIT_RESULT){
-            Toast.makeText(OcrActivity.this,"Some Error Occurred",Toast.LENGTH_LONG).show();
-        }
-        else{
-            double duration = (System.nanoTime() - startTime)/1000000000;
-            resultTextView.setText(ocrData.getResultText());
-            Toast.makeText(OcrActivity.this,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
-        }
     }
 
     private void performLocalOcr(Bitmap bitmap){
@@ -227,7 +205,7 @@ public class OcrActivity extends AppCompatActivity {
     }
 
     // convert from bitmap to byte array
-    private byte[] getBytesFromBitmap(Bitmap bitmap) {
+    public byte[] getBytesFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         return stream.toByteArray();
@@ -272,5 +250,42 @@ public class OcrActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+}
+
+class OffloadOcrTask extends Thread{
+    private OcrActivity ocrActivity;
+    private Bitmap bitmap;
+
+    public OffloadOcrTask(OcrActivity ocrActivity, Bitmap bitmap) {
+        this.ocrActivity = ocrActivity;
+        this.bitmap = bitmap;
+    }
+
+    public void run(){
+        double startTime = System.nanoTime();
+        byte[] image = ocrActivity.getBytesFromBitmap(bitmap);
+        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,OcrActivity.finalHour, OcrActivity.finalMinute,image,null);
+        OffloadingThread offloadingThread = new OffloadingThread((Object)ocrData);
+        offloadingThread.start();
+
+        synchronized (offloadingThread)
+        {
+            try {
+                offloadingThread.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ocrData = (OcrData)offloadingThread.getReceiveData();
+        if(ocrData==null || ocrData.getType() != MainActivity.SUBMIT_RESULT){
+            Toast.makeText(ocrActivity,"Some Error Occurred",Toast.LENGTH_LONG).show();
+        }
+        else{
+            double duration = (System.nanoTime() - startTime)/1000000000;
+            ocrActivity.resultTextView.setText(ocrData.getResultText());
+            Toast.makeText(ocrActivity,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
+        }
     }
 }

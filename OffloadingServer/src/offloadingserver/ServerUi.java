@@ -68,7 +68,7 @@ public class ServerUi extends javax.swing.JFrame {
         int cnt=1;
         for(TaskInfoData taskInfoData : ResourceAllocator.taskList){
             receivers.append(cnt+".\t        ");
-            receivers.append(taskInfoData.getType()+"\t\t");
+            receivers.append(taskInfoData.getType()+"\t\t\t");
             TaskData taskData = (TaskData)taskInfoData.getTaskData();
             receivers.append(taskData.getFinalHour()+" : "+taskData.getFinalMinute()+"\t               ");
             receivers.append(taskInfoData.getStatus()+"\n");

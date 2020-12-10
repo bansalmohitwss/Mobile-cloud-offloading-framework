@@ -33,6 +33,7 @@ public class ResourceAllocator {
         }
         taskInfoData.setTaskData(data);
         taskInfoData.setStatus("Pending");
+        taskList.add(taskInfoData);
     }
     
     public void allocateResource(Socket socket,ObjectInputStream objectInputStream,ObjectOutputStream objectOutputStream,Object data)
