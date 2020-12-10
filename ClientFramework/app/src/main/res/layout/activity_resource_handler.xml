@@ -13,9 +13,10 @@
         android:layout_below="@+id/statusView"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="85dp"
-        android:layout_marginLeft="85dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginLeft="119dp"
         android:layout_marginTop="106dp"
+        android:background="#1FB598"
         android:text="Close" />
 
     <TextView
@@ -36,9 +37,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="66dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="57dp"
         android:text="Status "
         android:textSize="24sp" />
 
