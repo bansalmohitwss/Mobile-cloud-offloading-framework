@@ -57,6 +57,7 @@
         android:layout_marginStart="248dp"
         android:layout_marginLeft="248dp"
         android:layout_marginTop="62dp"
+        android:background="#1FB598"
         android:text="Submit"
         android:textAllCaps="false" />
 
@@ -70,6 +71,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginLeft="88dp"
         android:layout_marginTop="-48dp"
+        android:background="#1FB598"
         android:text="SignUp "
         android:textAllCaps="false" />
 
