@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int ACTIVE_CHECK = 9;
     public static final String SERVER_IP = "192.168.43.142";
     public static final int PORT_NO = 5000;
+    public static int cpuFreq=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         try{
             ProcessBuilder processBuilder;
             String Holder = "";
-            String[] DATA = {"/system/bin/cat", "/proc/cpuinfo"};
+            String[] DATA = {"/system/bin/cat", "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"};
             InputStream inputStream;
             Process process ;
             byte[] byteArry ;
@@ -66,15 +67,16 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
 
             Log.i("Value of Result", Holder);
+            cpuFreq = Integer.parseInt(Holder.trim());
         }catch(IOException e){
             e.printStackTrace();
         }
 
-        ActivityManager actManager = (ActivityManager) this.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
-        actManager.getMemoryInfo(memInfo);
-        long totalMemory = memInfo.totalMem/(1024*1024);
-        Log.i("Total Memory", ""+totalMemory);
+//        ActivityManager actManager = (ActivityManager) this.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+//        ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+//        actManager.getMemoryInfo(memInfo);
+//        long totalMemory = memInfo.totalMem/(1024*1024);
+//        Log.i("Total Memory", ""+totalMemory);
 
         sProvider.setOnClickListener(new View.OnClickListener() {
             @Override

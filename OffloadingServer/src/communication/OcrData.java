@@ -4,8 +4,8 @@ public class OcrData extends TaskData {
     public byte[] image;
     public String resultText;
 
-    public OcrData(int type, int finalHour, int finalMinute, byte[] image, String resultText) {
-        super(type, finalHour, finalMinute);
+    public OcrData(int type, int cpuFreq, int finalHour, int finalMinute, byte[] image, String resultText) {
+        super(type, cpuFreq, finalHour, finalMinute);
         this.image = image;
         this.resultText = resultText;
     }

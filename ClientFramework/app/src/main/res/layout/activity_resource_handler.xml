@@ -15,9 +15,10 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="119dp"
         android:layout_marginLeft="119dp"
-        android:layout_marginTop="106dp"
+        android:layout_marginTop="75dp"
         android:background="#1FB598"
-        android:text="Close" />
+        android:text="Close"
+        android:textColor="#FDFCFC" />
 
     <TextView
         android:id="@+id/statusView"
@@ -26,9 +27,9 @@
         android:layout_below="@+id/textView5"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="78dp"
-        android:layout_marginLeft="78dp"
-        android:layout_marginTop="74dp" />
+        android:layout_marginStart="59dp"
+        android:layout_marginLeft="59dp"
+        android:layout_marginTop="71dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -37,8 +38,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="165dp"
-        android:layout_marginLeft="165dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
         android:layout_marginTop="57dp"
         android:text="Status "
         android:textSize="24sp" />

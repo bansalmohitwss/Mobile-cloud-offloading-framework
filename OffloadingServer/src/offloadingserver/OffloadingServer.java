@@ -19,7 +19,7 @@ public class OffloadingServer {
         // TODO code application logic here
         
         Server server = new Server();
-        System.out.println("Starting Offloading Server");
+        Server.serverUi.setLogs("Starting Offloading Server");
         server.serverStart();
         
     }

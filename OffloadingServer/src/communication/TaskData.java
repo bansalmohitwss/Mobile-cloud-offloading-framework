@@ -4,8 +4,8 @@ public class TaskData extends SocketData {
    private int finalHour;
    private int finalMinute;
 
-    public TaskData(int type, int finalHour, int finalMinute) {
-        super(type);
+    public TaskData(int type, int cpuFreq, int finalHour, int finalMinute) {
+        super(type, cpuFreq);
         this.finalHour = finalHour;
         this.finalMinute = finalMinute;
     }

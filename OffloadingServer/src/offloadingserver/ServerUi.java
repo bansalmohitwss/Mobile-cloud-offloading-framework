@@ -33,7 +33,7 @@ public class ServerUi extends javax.swing.JFrame {
     }
     
     public void setProviders(){
-        providers.setText("No.\t        Device Name\t\tBid Price\t       Free/Busy\n");
+        providers.setText("No.\t    Device Name\t\tBid Price\t       CPU Freq.   \t          Free/Busy\n");
         providers.append("----------------------------------------------------");
         providers.append("----------------------------------------------------");
         providers.append("-------------------------------------\n");
@@ -42,10 +42,11 @@ public class ServerUi extends javax.swing.JFrame {
         {
             try {
                 if(deviceData.getIsbusy() == 0)
-                    deviceData.getObjectOutputStream().writeObject((Object)new SocketData(OffloadingServer.ACTIVE_CHECK));
-                providers.append(cnt+".\t        ");
-                providers.append(deviceData.getDeviceInfoData().getModel()+"\t\t");
+                    deviceData.getObjectOutputStream().writeObject((Object)new SocketData(OffloadingServer.ACTIVE_CHECK, -1));
+                providers.append(cnt+".\t    ");
+                providers.append(deviceData.getDeviceInfoData().getModel()+"\t");
                 providers.append(""+deviceData.getDeviceInfoData().getBidPrice()+"\t       ");
+                providers.append(""+deviceData.getDeviceInfoData().getCpuFreq()/1e6+" GHz \t          ");
                 if(deviceData.getIsbusy() == 1)
                     providers.append("Busy\n");
                 else
@@ -61,18 +62,23 @@ public class ServerUi extends javax.swing.JFrame {
     }
     
     public void setReceivers(){
-        receivers.setText("No.\t        Task Name\t\tDeadline\t               Status\n");
+        receivers.setText("No.\t        Task Name\tCPU Freq.      \t    Deadline   \t        Status\n");
         receivers.append("----------------------------------------------------");
         receivers.append("----------------------------------------------------");
         receivers.append("---------------------------------------\n");
         int cnt=1;
         for(TaskInfoData taskInfoData : ResourceAllocator.taskList){
             receivers.append(cnt+".\t        ");
-            receivers.append(taskInfoData.getType()+"\t\t\t");
+            receivers.append(taskInfoData.getType()+"\t\t");
+            receivers.append(""+((SocketData)taskInfoData.getTaskData()).getCpuFreq()/1e6+" GHz    \t    ");
             TaskData taskData = (TaskData)taskInfoData.getTaskData();
-            receivers.append(taskData.getFinalHour()+" : "+taskData.getFinalMinute()+"\t               ");
+            receivers.append(taskData.getFinalHour()+" : "+taskData.getFinalMinute()+"   \t        ");
             receivers.append(taskInfoData.getStatus()+"\n");
         }
+    }
+    
+    public void setLogs(String str){
+        logs.append(str+"\n");
     }
 
     /**

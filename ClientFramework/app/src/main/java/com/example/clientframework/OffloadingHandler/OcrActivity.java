@@ -1,5 +1,6 @@
 package com.example.clientframework.OffloadingHandler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -17,6 +18,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -43,10 +47,12 @@ public class OcrActivity extends AppCompatActivity {
     private Button offloadBtn;
     private Button closeBtn;
     private Button localBtn;
-    public TextView resultTextView;
+    private TextView resultTextView;
     private boolean localOcr;
+    private Handler handler;
+    private Bundle bundle;
     public static int finalHour=-1, finalMinute=-1;
-
+    public double duration;
     private static final int CAMERA_REQUEST_CODE = 610;
     private static final int PICK_IMAGE_GALLERY_REQUEST_CODE = 609;
 
@@ -60,6 +66,19 @@ public class OcrActivity extends AppCompatActivity {
         localBtn = (Button)findViewById(R.id.localBtn);
         resultTextView = (TextView)findViewById(R.id.textView4);
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
+        bundle = new Bundle();
+
+        handler = new Handler(Looper.getMainLooper()){
+
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                bundle = msg.getData();
+                String str = bundle.getString("resultText");
+                resultTextView.setText(str);
+                Toast.makeText(OcrActivity.this,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
+
+            }
+        };
 
         offloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +188,7 @@ public class OcrActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 finalHour = i;
                 finalMinute = i1;
-                OffloadOcrTask offloadOcrTask = new OffloadOcrTask(OcrActivity.this, bitmap);
+                OffloadOcrTask offloadOcrTask = new OffloadOcrTask(OcrActivity.this, bitmap, handler);
                 offloadOcrTask.start();
             }
         }, 12, 0, true);
@@ -251,21 +270,27 @@ public class OcrActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    public void showDuration(double duration){
+
+    }
 }
 
 class OffloadOcrTask extends Thread{
     private OcrActivity ocrActivity;
     private Bitmap bitmap;
+    private Handler handler;
 
-    public OffloadOcrTask(OcrActivity ocrActivity, Bitmap bitmap) {
+    public OffloadOcrTask(OcrActivity ocrActivity, Bitmap bitmap, Handler handler) {
         this.ocrActivity = ocrActivity;
         this.bitmap = bitmap;
+        this.handler = handler;
     }
 
     public void run(){
         double startTime = System.nanoTime();
         byte[] image = ocrActivity.getBytesFromBitmap(bitmap);
-        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,OcrActivity.finalHour, OcrActivity.finalMinute,image,null);
+        OcrData ocrData = new OcrData(MainActivity.OCR_TASK_REGISTRY,MainActivity.cpuFreq,OcrActivity.finalHour, OcrActivity.finalMinute,image,null);
         OffloadingThread offloadingThread = new OffloadingThread((Object)ocrData);
         offloadingThread.start();
 
@@ -284,8 +309,12 @@ class OffloadOcrTask extends Thread{
         }
         else{
             double duration = (System.nanoTime() - startTime)/1000000000;
-            ocrActivity.resultTextView.setText(ocrData.getResultText());
-            Toast.makeText(ocrActivity,"Successfully Received the Result \n"+"Total Time : "+duration+"sec.",Toast.LENGTH_LONG).show();
+            ocrActivity.duration = duration;
+            Message message = Message.obtain();
+            Bundle bundle = new Bundle();
+            bundle.putString("resultText",ocrData.getResultText());
+            message.setData(bundle);
+            handler.sendMessage(message);
         }
     }
 }

@@ -13,11 +13,12 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="109dp"
-        android:layout_marginLeft="109dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="137dp"
         android:background="#1FB598"
-        android:text="@string/provide_service" />
+        android:text="@string/provide_service"
+        android:textColor="#FAF8F8" />
 
     <Button
         android:id="@+id/button2"
@@ -26,11 +27,12 @@
         android:layout_below="@+id/button"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="106dp"
-        android:layout_marginLeft="106dp"
-        android:layout_marginTop="155dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="77dp"
         android:background="#1FB598"
-        android:text="@string/receive_service" />
+        android:text="@string/receive_service"
+        android:textColor="#FDFCFC" />
 
     <TextView
         android:id="@+id/textView3"
@@ -39,9 +41,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="108dp"
-        android:layout_marginLeft="108dp"
-        android:layout_marginTop="71dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginLeft="92dp"
+        android:layout_marginTop="16dp"
         android:text="Client Framework"
         android:textSize="24sp" />
 </RelativeLayout>

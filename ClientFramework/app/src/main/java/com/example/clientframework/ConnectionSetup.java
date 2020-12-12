@@ -86,7 +86,7 @@ public class ConnectionSetup extends AppCompatActivity {
                }
                else
                {
-                   new ClientThread(client,new DeviceInfoData(MainActivity.SERVICE_REGISTRY,
+                   new ClientThread(client,new DeviceInfoData(MainActivity.SERVICE_REGISTRY,MainActivity.cpuFreq,
                            Build.BRAND+" "+Build.MODEL, avalHour, avalMinute, Double.parseDouble(bidPrice.getText().toString())),3).start();
                    ClientThread clientThread = new ClientThread(client,null,4);
                    clientThread.start();

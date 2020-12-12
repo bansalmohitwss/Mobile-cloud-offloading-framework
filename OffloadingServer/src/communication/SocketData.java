@@ -5,8 +5,10 @@ import java.io.Serializable;
 public class SocketData implements Serializable
 {
     private int type;
-    public SocketData(int type){
+    private int cpuFreq;
+    public SocketData(int type, int cpuFreq){
         this.type=type;
+        this.cpuFreq = cpuFreq;
     }
 
     public void setType(int type) {
@@ -17,4 +19,11 @@ public class SocketData implements Serializable
         return type;
     }
 
+    public int getCpuFreq() {
+        return cpuFreq;
+    }
+
+    public void setCpuFreq(int cpuFreq) {
+        this.cpuFreq = cpuFreq;
+    }
 }

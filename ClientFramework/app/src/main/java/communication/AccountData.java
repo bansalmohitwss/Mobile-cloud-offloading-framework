@@ -6,8 +6,8 @@ public class AccountData extends SocketData{
     private String email;
     private String password;
 
-    public AccountData(int type,String name, String email, String password) {
-        super(type);
+    public AccountData(int type, int cpuFreq, String name, String email, String password) {
+        super(type, cpuFreq);
         this.name = name;
         this.email = email;
         this.password = password;

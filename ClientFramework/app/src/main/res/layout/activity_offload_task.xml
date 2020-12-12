@@ -108,5 +108,6 @@
         android:layout_marginRight="40dp"
         android:background="#1FB598"
         android:text="Back to Main Page"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="#F8F8F8" />
 </RelativeLayout>

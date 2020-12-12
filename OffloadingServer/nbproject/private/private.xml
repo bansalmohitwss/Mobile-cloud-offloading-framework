@@ -3,14 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/Server.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/ServerUi.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/serviceRegistry/ServiceRegistry.java</file>
-            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/resourceAllocation/TaskInfoData.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/OffloadingServer.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/ServerThread.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/SocketData.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/resourceAllocation/ResourceAllocator.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/Server.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/TaskData.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/offloadingserver/ServerUi.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/SortData.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/resourceAllocation/TaskInfoData.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/serviceRegistry/DeviceData.java</file>
             <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/OcrData.java</file>
+            <file>file:/C:/Users/bansa/Desktop/Project/OffloadingServer/src/communication/DeviceInfoData.java</file>
         </group>
     </open-files>
 </project-private>

@@ -87,7 +87,7 @@ public class SortActivity extends AppCompatActivity {
                 timePickerDialog.show();
 
                 double startTime = System.nanoTime();
-                SortData sortData = new SortData(MainActivity.SORT_TASK_REGISTRY,finalHour, finalMinute, vector);
+                SortData sortData = new SortData(MainActivity.SORT_TASK_REGISTRY,MainActivity.cpuFreq,finalHour, finalMinute, vector);
                 OffloadingThread offloadingThread = new OffloadingThread((Object)sortData);
                 offloadingThread.start();
 

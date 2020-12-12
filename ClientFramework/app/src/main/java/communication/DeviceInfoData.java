@@ -6,8 +6,8 @@ public class DeviceInfoData extends SocketData {
     private int avalMinute;
     private double bidPrice;
 
-    public DeviceInfoData(int type, String model, int avalHour, int avalMinute, double bidPrice) {
-        super(type);
+    public DeviceInfoData(int type, int cpuFreq, String model, int avalHour, int avalMinute, double bidPrice) {
+        super(type, cpuFreq);
         this.model = model;
         this.avalHour = avalHour;
         this.avalMinute = avalMinute;

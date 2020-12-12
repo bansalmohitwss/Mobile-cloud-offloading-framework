@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import offloadingserver.OffloadingServer;
 import communication.DeviceInfoData;
+import communication.Server;
 
 public class ServiceRegistry {
     
@@ -22,17 +23,17 @@ public class ServiceRegistry {
     {
         DeviceData deviceData = new DeviceData(socket,objectOutputStream,objectInputStream,deviceInfoData, 0);
         deviceList.add(deviceData);
-        System.out.println("Successfully added device : "+deviceList.size());
+        Server.serverUi.setLogs("Successfully added device : "+deviceList.size());
         
-        SocketData confData =  new SocketData(OffloadingServer.REGISTRATION_SUCCESS);
+        SocketData confData =  new SocketData(OffloadingServer.REGISTRATION_SUCCESS, -1);
         try {
             objectOutputStream.writeObject(confData);
         } catch (IOException ex) {
             Logger.getLogger(ServiceRegistry.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error in sending confirmation message");
+            Server.serverUi.setLogs("Error in sending confirmation message");
         }
         
-        System.out.println("Successfully send confirmation");
+        Server.serverUi.setLogs("Successfully send confirmation");
         
     }
 }
